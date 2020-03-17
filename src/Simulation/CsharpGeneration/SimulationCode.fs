@@ -918,9 +918,9 @@ module SimulationCode =
     let buildOperationInfoProperty (globalContext:CodegenContext) operationInput operationOutput operationName =
         let propertyType = 
             match globalContext.ExecutionTarget with
-            | "HoneywellProcessor" -> sprintf "HoneywellExecutable<%s, %s>" operationInput operationOutput
-            | "IonQProcessor"      -> sprintf "IonQExecutable<%s, %s>"      operationInput operationOutput
-            | "QCIProcessor"       -> sprintf "QCIExecutable<%s, %s>"       operationInput operationOutput
+            | target when target = AssemblyConstants.HoneywellProcessor -> sprintf "HoneywellExecutable<%s, %s>" operationInput operationOutput
+            | target when target = AssemblyConstants.IonQProcessor      -> sprintf "IonQExecutable<%s, %s>"      operationInput operationOutput
+            | target when target = AssemblyConstants.QCIProcessor       -> sprintf "QCIExecutable<%s, %s>"       operationInput operationOutput
             | _                    -> sprintf "EntryPointInfo<%s, %s>"      operationInput operationOutput
         let operationType = simpleBase operationName
         let newInstanceArgs = [``invoke`` (``ident`` "typeof") ``(`` [operationType.Type] ``)``]

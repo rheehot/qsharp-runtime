@@ -19,6 +19,7 @@ open Microsoft.Quantum.QsCompiler.CompilationBuilder
 open Microsoft.Quantum.QsCompiler.CsharpGeneration
 open Microsoft.Quantum.QsCompiler.CsharpGeneration.SimulationCode
 open Microsoft.Quantum.QsCompiler.DataTypes
+open Microsoft.Quantum.QsCompiler.ReservedKeywords
 open Microsoft.Quantum.QsCompiler.SyntaxTree
 
 
@@ -2307,7 +2308,7 @@ namespace N1
     let testOneClass (_,op : QsCallable) executionTarget (expected : string) =
         let expected = expected.Replace("%%%", op.SourceFile.Value)
         let assemblyConstants = 
-            new System.Collections.Generic.KeyValuePair<_,_> ("ResolvedExecutionTarget", executionTarget) 
+            new System.Collections.Generic.KeyValuePair<_,_> (AssemblyConstants.ExecutionTarget, executionTarget) 
             |> Seq.singleton
             |> ImmutableDictionary.CreateRange
         let compilation = {Namespaces = syntaxTree; EntryPoints = ImmutableArray.Create op.FullName}
@@ -2339,7 +2340,7 @@ namespace N1
         }
     }
 """
-        |> testOneClass emptyOperation "HoneywellProcessor"
+        |> testOneClass emptyOperation AssemblyConstants.HoneywellProcessor
 
         """
     public abstract partial class randomAbstractOperation : Unitary<(Qubit,Basis,(Pauli,IQArray<IQArray<Double>>,Boolean),Int64)>, ICallable
@@ -2378,7 +2379,7 @@ namespace N1
         }
     }
 """
-        |> testOneClass randomAbstractOperation "IonQProcessor"
+        |> testOneClass randomAbstractOperation AssemblyConstants.IonQProcessor
 
         """
     [SourceLocation("%%%", OperationFunctor.Body, 108, 113)]
@@ -2448,7 +2449,7 @@ namespace N1
         }
     }
 """
-        |> testOneClass oneQubitOperation "QCIProcessor"
+        |> testOneClass oneQubitOperation AssemblyConstants.QCIProcessor
         
     [<Fact>]
     let ``buildOperationClass - generics`` () = 
@@ -2492,7 +2493,7 @@ namespace N1
         }
     }
 """   
-        |> testOneClass genCtrl3 "HoneywellProcessor"
+        |> testOneClass genCtrl3 AssemblyConstants.HoneywellProcessor
         
         """
     [SourceLocation("%%%", OperationFunctor.Body, 1266, 1272)]
@@ -2541,7 +2542,7 @@ namespace N1
         }
     }
 """   
-        |> testOneClass composeImpl "IonQProcessor"
+        |> testOneClass composeImpl AssemblyConstants.IonQProcessor
         
     [<Fact>]
     let ``buildOperationClass - abstract function`` () = 
@@ -2567,7 +2568,7 @@ namespace N1
         }
     }
 """
-        |> testOneClass genF1 "QCIProcessor"
+        |> testOneClass genF1 AssemblyConstants.QCIProcessor
         
     [<Fact>]
     let ``buildOperationClass - access modifiers`` () =

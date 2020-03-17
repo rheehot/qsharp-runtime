@@ -105,7 +105,7 @@ type CodegenContext = {
         CodegenContext.Create(syntaxTree, ImmutableDictionary.Empty)
 
     member public this.ExecutionTarget = 
-        match this.assemblyConstants.TryGetValue "ResolvedExecutionTarget" with // FIXME: SEARCH AND REPLACE WITH CONSTANT
+        match this.assemblyConstants.TryGetValue AssemblyConstants.ExecutionTarget with 
         | true, name -> name
         | false, _ -> null
 

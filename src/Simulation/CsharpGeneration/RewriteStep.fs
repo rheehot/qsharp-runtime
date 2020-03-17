@@ -37,7 +37,7 @@ type Emitter() =
                 | true, outputFolder when outputFolder <> null -> Path.Combine(outputFolder, "src")
                 | _ -> step.Name
 
-            let context = CodegenContext.Create (compilation.Namespaces, step.AssemblyConstants)
+            let context = CodegenContext.Create (compilation, step.AssemblyConstants)
             let containsEntryPoint = compilation.EntryPoints.Length <> 0
             let targetsQuantumProcessor = 
                 match step.AssemblyConstants.TryGetValue "ResolvedExecutionTarget" with
